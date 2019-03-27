@@ -9,7 +9,7 @@
     "product_name": "APIVoid",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) Splunk, 2019",
+    "license": "Copyright (c) 2019 Splunk Inc.",
     "app_version": "1.0.0",
     "utctime_updated": "2019-03-20T12:52:02.314351Z",
     "package_name": "phantom_apivoid",
