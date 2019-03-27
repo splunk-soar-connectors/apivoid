@@ -1,7 +1,7 @@
 # File: apivoid_consts.py
 # Copyright (c) 2019 Splunk Inc.
 #
-# SPLUNK CONFIDENTIAL – Use or disclosure of this material in whole or in part
+# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
 # without a valid written license from Splunk Inc. is PROHIBITED.
 
 APIVOID_ACTUAL_URL = '{base_url}/{endpoint}/pay-as-you-go'
