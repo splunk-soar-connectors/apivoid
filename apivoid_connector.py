@@ -242,13 +242,13 @@ class ApivoidConnector(BaseConnector):
             processed_data['alexa_top_250k'] = data.get('alexa_top_250k')
             processed_data['most_abused_tld'] = data.get('most_abused_tld')
             processed_data['domain_length'] = data.get('domain_length')
-        processed_data['detections'] = data.get('blacklists').get('detections')
-        processed_data['engines_count'] = data.get('blacklists').get('engines_count')
-        processed_data['detection_rate'] = data.get('blacklists').get('detection_rate')
-        processed_data['scantime'] = data.get('blacklists').get('scantime')
+        processed_data['detections'] = data.get('blacklists', {}).get('detections')
+        processed_data['engines_count'] = data.get('blacklists', {}).get('engines_count')
+        processed_data['detection_rate'] = data.get('blacklists', {}).get('detection_rate')
+        processed_data['scantime'] = data.get('blacklists', {}).get('scantime')
 
         engines_list = []
-        engines_data = data.get('blacklists').get('engines')
+        engines_data = data.get('blacklists', {}).get('engines')
         for engine in engines_data:
             engines_list.append(engines_data[engine])
 
@@ -277,11 +277,12 @@ class ApivoidConnector(BaseConnector):
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
-        if 'data' in response:
+        if response.get('error'):
+            return action_result.set_status(phantom.APP_ERROR, response.get('error'))
+
+        if response.get('data'):
             data = response.get('data').get('report')
             processed_data = self._process_reputation_data(action_result, data)
-        elif 'error' in response:
-            return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         if processed_data:
             action_result.add_data(processed_data)
@@ -320,11 +321,12 @@ class ApivoidConnector(BaseConnector):
         if phantom.is_fail(ret_val):
             return action_result.get_status()
 
-        if 'data' in response:
+        if response.get('error'):
+            return action_result.set_status(phantom.APP_ERROR, response.get('error'))
+
+        if response.get('data'):
             data = response.get('data').get('report')
             processed_data = self._process_reputation_data(action_result, data)
-        elif 'error' in response:
-            return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         if processed_data:
             action_result.add_data(processed_data)
