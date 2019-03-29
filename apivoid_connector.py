@@ -219,7 +219,7 @@ class ApivoidConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         summary = action_result.update_summary({})
-        summary['certificate_found'] = response.get('data').get('certificate').get('found')
+        summary['certificate_found'] = response.get('data', {}).get('certificate', {}).get('found')
 
         return action_result.set_status(phantom.APP_SUCCESS, APIVOID_GET_CERT_INFO_SUCCESS_MSG.format(domain=domain))
 
@@ -232,6 +232,9 @@ class ApivoidConnector(BaseConnector):
         """
 
         processed_data = dict()
+
+        if not data:
+            return processed_data
 
         if self.get_action_identifier() == 'domain_reputation':
             processed_data['alexa_top_10k'] = data.get('alexa_top_10k')
