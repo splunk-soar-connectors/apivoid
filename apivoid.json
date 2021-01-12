@@ -17,7 +17,7 @@
     "python_version": "3",
     "min_phantom_version": "4.9.39220",
     "latest_tested_versions": [
-        ""
+        "APIVoid Cloud, 2019-2021 on 01/12/2020"
     ],
     "app_wizard_version": "1.0.0",
     "configuration": {
