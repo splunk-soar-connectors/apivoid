@@ -9,12 +9,16 @@
     "product_name": "APIVoid",
     "product_version_regex": ".*",
     "publisher": "Splunk",
-    "license": "Copyright (c) 2019 Splunk Inc.",
-    "app_version": "1.0.2",
-    "utctime_updated": "2019-04-02T01:36:06.000000Z",
+    "license": "Copyright (c) 2019-2021 Splunk Inc.",
+    "app_version": "2.0.0",
+    "utctime_updated": "2019-04-02T17:25:28.000000Z",
     "package_name": "phantom_apivoid",
-    "main_module": "apivoid_connector.pyc",
-    "min_phantom_version": "4.0.1068",
+    "main_module": "apivoid_connector.py",
+    "python_version": "3",
+    "min_phantom_version": "4.9.39220",
+    "latest_tested_versions": [
+        "APIVoid Cloud, 2019-2021 on 01/12/2020"
+    ],
     "app_wizard_version": "1.0.0",
     "configuration": {
         "server_url": {
@@ -110,10 +114,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.debug_message",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.deprecated_issuer",
@@ -204,10 +205,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.issuer.location",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.issuer.organization",
@@ -220,17 +218,11 @@
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.issuer.organization_unit",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.issuer.state",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.signature.serial",
@@ -267,10 +259,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.subject.category",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.subject.common_name",
@@ -311,17 +300,11 @@
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.subject.organization_unit",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.subject.postal_code",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.subject.state",
@@ -332,10 +315,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.subject.street",
-                    "data_type": "string",
-                    "example_values": [
-                        ""
-                    ]
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.data.certificate.details.validity.days_left",
@@ -422,12 +402,24 @@
                     ]
                 },
                 {
+                    "data_path": "action_result.data.*.data.certificate.valid",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
                     "data_path": "action_result.data.*.data.certificate.valid_peer",
                     "data_type": "boolean",
                     "example_values": [
                         true,
                         false
                     ]
+                },
+                {
+                    "data_path": "action_result.data.*.data.host",
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.elapsed_time",
@@ -705,7 +697,8 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
