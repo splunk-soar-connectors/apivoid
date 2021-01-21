@@ -182,7 +182,7 @@ class ApivoidConnector(BaseConnector):
         self.save_progress(APIVOID_CONNECTIVITY_MSG)
 
         params = dict()
-        params[APIVOID_CONST_STATS] = None
+        params[APIVOID_CONST_STATS] = ""
 
         # make rest call
         ret_val, response = self._make_rest_call(endpoint=APIVOID_TEST_CONNECTIVITY_ENDPOINT,
@@ -191,6 +191,11 @@ class ApivoidConnector(BaseConnector):
         if phantom.is_fail(ret_val):
             self.save_progress(APIVOID_TEST_CONNECTIVITY_FAIL_MSG)
             return action_result.get_status()
+
+        if response.get('error'):
+            self.save_progress(response.get('error'))
+            self.save_progress(APIVOID_TEST_CONNECTIVITY_FAIL_MSG)
+            return action_result.set_status(phantom.APP_ERROR)
 
         self.save_progress(APIVOID_TEST_CONNECTIVITY_PASS_MSG)
         return action_result.set_status(phantom.APP_SUCCESS)
