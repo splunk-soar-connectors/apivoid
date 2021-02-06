@@ -1,5 +1,5 @@
 # File: apivoid_connector.py
-# Copyright (c) 2019 Splunk Inc.
+# Copyright (c) 2019-2021 Splunk Inc.
 #
 # SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
 # without a valid written license from Splunk Inc. is PROHIBITED.
@@ -12,7 +12,7 @@ from apivoid_consts import *
 import requests
 import json
 import ipaddress
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, UnicodeDammit
 
 
 class RetVal(tuple):
@@ -43,7 +43,7 @@ class ApivoidConnector(BaseConnector):
         if response.status_code == 200:
             return RetVal(phantom.APP_SUCCESS, {})
 
-        return RetVal(action_result.set_status(phantom.APP_ERROR, u"Empty response and no information in the header"),
+        return RetVal(action_result.set_status(phantom.APP_ERROR, "Empty response and no information in the header"),
                       None)
 
     @staticmethod
@@ -60,16 +60,19 @@ class ApivoidConnector(BaseConnector):
 
         try:
             soup = BeautifulSoup(response.text, "html.parser")
-            error_text = soup.text.encode('utf-8')
+            # Remove the script, style, footer and navigation part from the HTML message
+            for element in soup(["script", "style", "footer", "nav"]):
+                element.extract()
+            error_text = soup.text
             split_lines = error_text.split('\n')
             split_lines = [x.strip() for x in split_lines if x.strip()]
-            error_text = u'\n'.join(split_lines)
+            error_text = '\n'.join(split_lines)
         except:
-            error_text = u"Cannot parse error details"
+            error_text = "Cannot parse error details"
 
-        message = u"Status Code: {0}. Data from server:\n{1}\n".format(status_code, error_text)
+        message = "Status Code: {0}. Data from server:\n{1}\n".format(status_code, error_text)
 
-        message = message.replace(u'{', u'{{').replace(u'}', u'}}')
+        message = message.replace('{', '{{').replace('}', '}}')
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
@@ -86,7 +89,7 @@ class ApivoidConnector(BaseConnector):
         try:
             resp_json = response.json()
         except Exception as e:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, u"Unable to parse JSON response. Error: {0}"
+            return RetVal(action_result.set_status(phantom.APP_ERROR, "Unable to parse JSON response. Error: {0}"
                           .format(str(e))), None)
 
         # Please specify the status codes here
@@ -94,8 +97,8 @@ class ApivoidConnector(BaseConnector):
             return RetVal(phantom.APP_SUCCESS, resp_json)
 
         # You should process the error returned in the json
-        message = u"Error from server. Status Code: {0} Data from server: {1}".format(
-                response.status_code, response.text.replace(u'{', u'{{').replace(u'}', u'}}'))
+        message = "Error from server. Status Code: {0} Data from server: {1}".format(
+                response.status_code, response.text.replace('{', '{{').replace('}', '}}'))
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
 
@@ -127,7 +130,7 @@ class ApivoidConnector(BaseConnector):
         if not response.text:
             return self._process_empty_response(response, action_result)
 
-        message = u"Can't process response from server. Status Code: {0} Data from server: {1}".format(
+        message = "Can't process response from server. Status Code: {0} Data from server: {1}".format(
                 response.status_code, response.text.replace('{', '{{').replace('}', '}}'))
 
         return RetVal(action_result.set_status(phantom.APP_ERROR, message), None)
@@ -155,7 +158,7 @@ class ApivoidConnector(BaseConnector):
         try:
             request_func = getattr(requests, method)
         except AttributeError:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, u"Invalid method: {0}".format(method)), resp_json)
+            return RetVal(action_result.set_status(phantom.APP_ERROR, "Invalid method: {0}".format(method)), resp_json)
 
         # Create a URL to make REST call
         url = APIVOID_ACTUAL_URL.format(base_url=self._server_url, endpoint=endpoint)
@@ -163,7 +166,7 @@ class ApivoidConnector(BaseConnector):
         try:
             response = request_func(url, json=json, data=data, headers=headers, params=params)
         except Exception as e:
-            return RetVal(action_result.set_status( phantom.APP_ERROR, u"Error Connecting to server. Details: {0}"
+            return RetVal(action_result.set_status( phantom.APP_ERROR, "Error Connecting to server. Details: {0}"
                           .format(str(e))), resp_json)
 
         return self._process_response(response, action_result)
@@ -179,7 +182,7 @@ class ApivoidConnector(BaseConnector):
         self.save_progress(APIVOID_CONNECTIVITY_MSG)
 
         params = dict()
-        params[APIVOID_CONST_STATS] = None
+        params[APIVOID_CONST_STATS] = ""
 
         # make rest call
         ret_val, response = self._make_rest_call(endpoint=APIVOID_TEST_CONNECTIVITY_ENDPOINT,
@@ -188,6 +191,11 @@ class ApivoidConnector(BaseConnector):
         if phantom.is_fail(ret_val):
             self.save_progress(APIVOID_TEST_CONNECTIVITY_FAIL_MSG)
             return action_result.get_status()
+
+        if response.get('error'):
+            self.save_progress(response.get('error'))
+            self.save_progress(APIVOID_TEST_CONNECTIVITY_FAIL_MSG)
+            return action_result.set_status(phantom.APP_ERROR)
 
         self.save_progress(APIVOID_TEST_CONNECTIVITY_PASS_MSG)
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -308,7 +316,7 @@ class ApivoidConnector(BaseConnector):
         ip = param[APIVOID_CONST_IP]
 
         try:
-            ipaddress.ip_address(unicode(ip))
+            ipaddress.ip_address(UnicodeDammit(ip).unicode_markup)
         except:
             return action_result.set_status(phantom.APP_ERROR, APIVOID_INVALID_IP_MESSAGE.format(ip=ip))
 
@@ -359,7 +367,7 @@ class ApivoidConnector(BaseConnector):
         action = self.get_action_identifier()
         action_execution_status = phantom.APP_SUCCESS
 
-        if action in action_mapping.keys():
+        if action in list(action_mapping.keys()):
             action_function = action_mapping[action]
             action_execution_status = action_function(param)
 
@@ -426,7 +434,7 @@ if __name__ == '__main__':
         login_url = "{}{}".format(BaseConnector._get_phantom_base_url(), "login")
 
         try:
-            print ("Accessing the Login page")
+            print("Accessing the Login page")
             r = requests.get(login_url, verify=False)
             csrftoken = r.cookies['csrftoken']
 
@@ -439,11 +447,11 @@ if __name__ == '__main__':
             headers['Cookie'] = 'csrftoken={}'.format(csrftoken)
             headers['Referer'] = login_url
 
-            print ("Logging into Platform to get the session id")
+            print("Logging into Platform to get the session id")
             r2 = requests.post(login_url, verify=False, data=data, headers=headers)
             session_id = r2.cookies['sessionid']
         except Exception as e:
-            print ("Unable to get session id from the platform. Error: " + str(e))
+            print("Unable to get session id from the platform. Error: " + str(e))
             exit(1)
 
     with open(args.input_test_json) as f:
@@ -459,6 +467,6 @@ if __name__ == '__main__':
             connector._set_csrf_info(csrftoken, headers['Referer'])
 
         ret_val = connector._handle_action(json.dumps(in_json), None)
-        print (json.dumps(json.loads(ret_val), indent=4))
+        print(json.dumps(json.loads(ret_val), indent=4))
 
     exit(0)
