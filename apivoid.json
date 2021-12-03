@@ -16,6 +16,7 @@
     "main_module": "apivoid_connector.py",
     "python_version": "3",
     "min_phantom_version": "4.9.39220",
+    "fips_compliant": true,
     "latest_tested_versions": [
         "APIVoid Cloud, 2019-2021 on 01/12/2020"
     ],
