@@ -18,6 +18,8 @@ import json
 
 import phantom.app as phantom
 import requests
+import sys
+
 from bs4 import BeautifulSoup, UnicodeDammit
 from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
