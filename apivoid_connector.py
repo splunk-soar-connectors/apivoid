@@ -234,6 +234,7 @@ class ApivoidConnector(BaseConnector):
         if 'data' in response:
             action_result.add_data(response)
         elif 'error' in response:
+            self.save_progress(response.get('error'))
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         summary = action_result.update_summary({})
@@ -296,6 +297,7 @@ class ApivoidConnector(BaseConnector):
             return action_result.get_status()
 
         if response.get('error'):
+            self.save_progress(response.get('error'))
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         if response.get('data'):
@@ -340,6 +342,7 @@ class ApivoidConnector(BaseConnector):
             return action_result.get_status()
 
         if response.get('error'):
+            self.save_progress(response.get('error'))
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         if response.get('data'):
