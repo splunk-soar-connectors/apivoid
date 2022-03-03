@@ -2,11 +2,11 @@
 # APIvoid
 
 Publisher: Splunk  
-Connector Version: 2\.0\.3  
+Connector Version: 2\.0\.4  
 Product Vendor: APIVoid  
 Product Name: APIVoid  
 Product Version Supported (regex): "\.\*"  
-Minimum Product Version: 4\.9\.39220  
+Minimum Product Version: 5\.1\.0  
 
 This app supports executing investigative and reputation actions on the URLVoid service
 
