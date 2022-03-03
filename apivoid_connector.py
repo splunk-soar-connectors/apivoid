@@ -237,6 +237,7 @@ class ApivoidConnector(BaseConnector):
             self.save_progress(response.get('error'))
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
+        self.save_progress("")
         summary = action_result.update_summary({})
         summary['certificate_found'] = response.get('data', {}).get('certificate', {}).get('found')
 
