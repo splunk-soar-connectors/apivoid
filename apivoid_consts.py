@@ -29,3 +29,4 @@ APIVOID_NO_ENGINES_FOUND_MSG = 'No engines found in blacklist category'
 APIVOID_CONNECTIVITY_MSG = 'Connecting to server'
 APIVOID_TEST_CONNECTIVITY_PASS_MSG = 'Test Connectivity Passed'
 APIVOID_TEST_CONNECTIVITY_FAIL_MSG = 'Test Connectivity Failed'
+APIVOID_DEFAULT_REQUEST_TIMEOUT = 30
