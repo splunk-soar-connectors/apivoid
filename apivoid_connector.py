@@ -1,6 +1,6 @@
 # File: apivoid_connector.py
 #
-# Copyright (c) 2019-2021 Splunk Inc.
+# Copyright (c) 2019-2022 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,15 +12,17 @@
 # the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 # either express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
-import phantom.app as phantom
-from phantom.base_connector import BaseConnector
-from phantom.action_result import ActionResult
-from apivoid_consts import *
 
-import requests
-import json
 import ipaddress
+import json
+
+import phantom.app as phantom
+import requests
 from bs4 import BeautifulSoup, UnicodeDammit
+from phantom.action_result import ActionResult
+from phantom.base_connector import BaseConnector
+
+from apivoid_consts import *
 
 
 class RetVal(tuple):
@@ -232,8 +234,10 @@ class ApivoidConnector(BaseConnector):
         if 'data' in response:
             action_result.add_data(response)
         elif 'error' in response:
+            self.save_progress(response.get('error'))
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
+        self.save_progress("")
         summary = action_result.update_summary({})
         summary['certificate_found'] = response.get('data', {}).get('certificate', {}).get('found')
 
@@ -294,6 +298,7 @@ class ApivoidConnector(BaseConnector):
             return action_result.get_status()
 
         if response.get('error'):
+            self.save_progress(response.get('error'))
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         if response.get('data'):
@@ -338,6 +343,7 @@ class ApivoidConnector(BaseConnector):
             return action_result.get_status()
 
         if response.get('error'):
+            self.save_progress(response.get('error'))
             return action_result.set_status(phantom.APP_ERROR, response.get('error'))
 
         if response.get('data'):
@@ -414,8 +420,9 @@ class ApivoidConnector(BaseConnector):
 
 if __name__ == '__main__':
 
-    import pudb
     import argparse
+
+    import pudb
 
     pudb.set_trace()
 
