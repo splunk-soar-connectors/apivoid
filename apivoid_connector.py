@@ -1,6 +1,6 @@
 # File: apivoid_connector.py
 #
-# Copyright (c) 2019-2022 Splunk Inc.
+# Copyright (c) 2019-2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -332,7 +332,7 @@ class ApivoidConnector(BaseConnector):
         try:
             ipaddress.ip_address(UnicodeDammit(ip).unicode_markup)
         except:
-            return action_result.set_status(phantom.APP_ERROR, APIVOID_INVALID_IP_MESSAGE.format(ip=ip))
+            return action_result.set_status(phantom.APP_ERROR, APIVOID_INVALID_IP_MSG.format(ip=ip))
 
         params = dict()
         params[APIVOID_CONST_IP] = ip
