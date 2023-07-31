@@ -1,6 +1,6 @@
 # File: apivoid_consts.py
 #
-# Copyright (c) 2019-2022 Splunk Inc.
+# Copyright (c) 2019-2023 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@ APIVOID_SSL_INFO_ENDPOINT = 'sslinfo/v1'
 APIVOID_IP_REPUTATION_ENDPOINT = 'iprep/v1'
 APIVOID_DOMAIN_REPUTATION_ENDPOINT = 'domainbl/v1'
 APIVOID_CONFIG_SERVER_URL = 'server_url'
-APIVOID_CONFIG_APIKEY = 'api_key'
+APIVOID_CONFIG_APIKEY = 'api_key'   # pragma: allowlist secret
 APIVOID_CONST_STATS = 'stats'
 APIVOID_CONST_HOST = 'host'
 APIVOID_CONST_IP = 'ip'
 APIVOID_CONST_DOMAIN = 'domain'
-APIVOID_INVALID_IP_MESSAGE = 'Invalid IP provided: {ip}'
+APIVOID_INVALID_IP_MSG = 'Invalid IP provided: {ip}'
 APIVOID_GET_CERT_INFO_SUCCESS_MSG = 'Received Certificate information for domain {domain}'
 APIVOID_NO_ENGINES_FOUND_MSG = 'No engines found in blacklist category'
 APIVOID_CONNECTIVITY_MSG = 'Connecting to server'
