@@ -294,6 +294,7 @@ class ApivoidConnector(BaseConnector):
             self.save_progress(response.get("error"))
             return action_result.set_status(phantom.APP_ERROR, response.get("error"))
 
+        processed_data = None
         if response.get("data"):
             data = response.get("data").get("report")
             processed_data = self._process_reputation_data(action_result, data)
@@ -338,6 +339,7 @@ class ApivoidConnector(BaseConnector):
             self.save_progress(response.get("error"))
             return action_result.set_status(phantom.APP_ERROR, response.get("error"))
 
+        processed_data = None
         if response.get("data"):
             data = response.get("data").get("report")
             processed_data = self._process_reputation_data(action_result, data)
