@@ -1,9 +1,9 @@
 # APIvoid
 
-Publisher: Splunk \
-Connector Version: 2.0.6 \
-Product Vendor: APIVoid \
-Product Name: APIVoid \
+Publisher: Splunk <br>
+Connector Version: 2.0.6 <br>
+Product Vendor: APIVoid <br>
+Product Name: APIVoid <br>
 Minimum Product Version: 5.1.0
 
 This app supports executing investigative and reputation actions on the URLVoid service
@@ -19,16 +19,16 @@ VARIABLE | REQUIRED | TYPE | DESCRIPTION
 
 ### Supported Actions
 
-[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration \
-[get cert info](#action-get-cert-info) - Queries certification info \
-[domain reputation](#action-domain-reputation) - Queries domain info \
+[test connectivity](#action-test-connectivity) - Validate the asset configuration for connectivity using supplied configuration <br>
+[get cert info](#action-get-cert-info) - Queries certification info <br>
+[domain reputation](#action-domain-reputation) - Queries domain info <br>
 [ip reputation](#action-ip-reputation) - Queries IP info
 
 ## action: 'test connectivity'
 
 Validate the asset configuration for connectivity using supplied configuration
 
-Type: **test** \
+Type: **test** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -43,7 +43,7 @@ No Output
 
 Queries certification info
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -117,7 +117,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Queries domain info
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
@@ -156,7 +156,7 @@ summary.total_objects_successful | numeric | | 1 |
 
 Queries IP info
 
-Type: **investigate** \
+Type: **investigate** <br>
 Read only: **True**
 
 #### Action Parameters
