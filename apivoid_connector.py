@@ -1,6 +1,6 @@
 # File: apivoid_connector.py
 #
-# Copyright (c) 2019-2025 Splunk Inc.
+# Copyright (c) 2019-2026 Splunk Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -173,7 +173,7 @@ class ApivoidConnector(BaseConnector):
         try:
             response = request_func(url, json=json, data=data, headers=headers, params=params)
         except Exception as e:
-            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Error Connecting to server. Details: {e!s}"), resp_json)
+            return RetVal(action_result.set_status(phantom.APP_ERROR, f"Error connecting to server: {type(e).__name__}"), resp_json)
 
         return self._process_response(response, action_result)
 
